@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@antv/g6": "^4.8.24",
     "@itk-wasm/dicom": "^6.0.1",
     "antd": "^5.16.4",
     "dicom-parser": "^1.8.21",
