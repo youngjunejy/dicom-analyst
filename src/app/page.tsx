@@ -2,16 +2,21 @@
 
 import { InboxOutlined } from '@ant-design/icons';
 import Dragger from 'antd/es/upload/Dragger';
-import {
-  applyPresentationStateToImage,
-  readDicomEncapsulatedPdf,
-  structuredReportToHtml,
-  structuredReportToText,
-  readDicomTags,
-  readImageDicomFileSeries,
-  setPipelinesBaseUrl,
-  getPipelinesBaseUrl,
-} from "@itk-wasm/dicom"
+import dicomParser from 'dicom-parser';
+
+function dumpFile(file: any) {
+  let reader = new FileReader();
+  reader.onload = function(evt) {
+    let arrayBuffer = reader.result;
+    let byteArray = new Uint8Array(arrayBuffer);
+    const options = { TransferSyntaxUID: '1.2.840.10008.1.2' };
+    let dataSet = dicomParser.parseDicom(byteArray, options);
+    let patientId = dataSet.string('x00100010');
+    let studyInstanceUid = dataSet.string('x0020000d');
+    let seriesInstanceUid = dataSet.string('x0020000e');
+  }
+  reader.readAsArrayBuffer(file);
+}
 
 
 const props = {
@@ -23,17 +28,10 @@ const props = {
     showdownloadIcon: false,
   },
   beforeUpload: (file: any) => {
-    console.log('beforeUpload', file);
-
-    readDicomTags(file, {
-      webWorker: false
-    }).then((tags) => {
-      console.log('tags', tags);
-    })
-    // const reader = itk.
+    dumpFile(file);
     return false;
   },
-
+  
 };
 
 export default function Home() {

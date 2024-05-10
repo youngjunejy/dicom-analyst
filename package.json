@@ -11,6 +11,7 @@
   "dependencies": {
     "@itk-wasm/dicom": "^6.0.1",
     "antd": "^5.16.4",
+    "dicom-parser": "^1.8.21",
     "itk-wasm": "^1.0.0-b.173",
     "next": "14.2.3",
     "react": "^18",
